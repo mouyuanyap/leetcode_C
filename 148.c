@@ -80,6 +80,9 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2){
     else if (list1 == NULL && list2!=NULL){
         return list2;
     }
+    else{
+        return NULL;
+    }
     
 }
 
