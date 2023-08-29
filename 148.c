@@ -6,11 +6,136 @@ struct ListNode {
      struct ListNode *next;
  };
 
-struct ListNode* sortList(struct ListNode* head){
+struct ListNode* createList(int* l1,int len){
+    struct ListNode* list1 = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+    struct ListNode* head = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+    if (len>0){
+        list1->val = l1[0];
+        // struct ListNode* temp = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+        list1->next = NULL;
+        head = list1;
+        // list1 = list1->next;
+        for (int i = 1; i < len; i++){
+            list1->next = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+            list1 = list1->next;
+            list1->val = l1[i];
+            list1->next = NULL;
+        }
+
+        list1 = head;
+        return list1;
+    }
+    else{
+        return NULL;
+    }
+}
+
+// struct ListNode* sortList(struct ListNode* head){
+
+// }
+
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2){
+    struct ListNode* head = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+    struct ListNode* temp = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+    struct ListNode* move = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+
+    if (list1 != NULL && list2!=NULL){
+        int i = 0;
+        while(move!=NULL && temp!=NULL){
+            if (i == 0){
+                if (list1->val > list2->val){
+                    head = list2;
+                    move = list2;
+                    temp = list1;
+                    
+                }else{
+                    head = list1;
+                    move = list1;
+                    temp = list2;
+                }
+                
+            }else{
+                if (move->next == NULL){
+                    move->next= temp;
+                    break;
+                }
+                if (temp->val > move->next->val){
+                    move = move -> next;
+                }else{
+                    struct ListNode* temp2 = (struct ListNode*)calloc(1, sizeof(struct ListNode));
+                    temp2 = move->next;
+                    move->next = temp;
+                    move = move->next;
+                    temp = temp2;
+                    
+                }
+            }
+            i+=1;
+        }
+        return head;
+    }
+    else if (list1 != NULL && list2==NULL){
+        return list1;
+    }
+    else if (list1 == NULL && list2!=NULL){
+        return list2;
+    }
+    
+}
+
+struct ListNode** splitList(struct ListNode* head){
+    if (head == NULL){
+        struct ListNode **result = (struct ListNode**)calloc(2,sizeof(struct ListNode*));
+        result[0] = NULL;
+        result[1] = NULL;
+        return result;
+    }
+    else if (head->next == NULL){
+        struct ListNode **result = (struct ListNode**)calloc(2,sizeof(struct ListNode*));
+        result[0] = head;
+        result[1] = NULL;
+        return result;
+    }
+    
+    struct ListNode *slow =  head;
+    struct ListNode *fast =  head;
+    struct ListNode *temp;
+    while(fast!=NULL){
+        if (fast->next != NULL){
+            fast = fast->next->next;
+            temp = slow;
+            slow = slow->next;
+        }else{fast = fast->next;}
+    }
+    fast = slow;
+    temp->next =  NULL;
+
+    struct ListNode **result = (struct ListNode**)calloc(2,sizeof(struct ListNode*));
+    result[0] = head;
+    result[1] = fast;
+
+    return result;
+
+}
+
+struct ListNode* mergeSort(struct ListNode* list){
+    
+    struct ListNode** split = splitList(list);
+    if ((split[0] == NULL) || (split[1] == NULL)||(split[0]->next == NULL && split[1]->next == NULL)){
+        struct ListNode* merged = mergeTwoLists(split[0],split[1]);
+        return merged;
+    }else{
+        struct ListNode* merged1 = mergeSort(split[0]);
+        struct ListNode* merged2 = mergeSort(split[1]);
+        struct ListNode* merged3 = mergeTwoLists(merged1,merged2);
+        return merged3;
+    }
 
 }
 
 int main(){
-
+    int l1[] = {};
+    struct ListNode* list1 = createList(l1,sizeof(l1)/sizeof(l1[0]));
+    struct ListNode* result = mergeSort(list1);
     return 0;
 }
