@@ -53,13 +53,12 @@ char * addBinary(char * a, char * b){
             newAns[j] = ans[j-1];
         }
         newAns[sizeOfAns] = '\0';
-
+        // free(ans);
         return newAns;
     }else{
         return ans;
     }
     return a;
-
 }
 
 int main(){
