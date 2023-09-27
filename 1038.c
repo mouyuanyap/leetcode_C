@@ -21,7 +21,7 @@ void traverseLeft(struct TreeNode* root, int father, int* max ){
 }
 
 int traverseRight(struct TreeNode* root, int *max){
-    if (root->right!=NULL){
+    if (root->right==NULL){
         root->val+=*max;
         if (root->val > *max) *max = root->val;
 
