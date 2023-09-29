@@ -19,7 +19,7 @@ struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize){
     struct nodeStack* head = NULL;
     struct TreeNode* newNode;
     struct nodeStack* temp;
-    struct TreeNode* answer;
+    struct TreeNode* answer=NULL;
     for(int i = 0; i<numsSize; i++){
         if (head == NULL){
             head = (struct nodeStack*)malloc(sizeof(struct nodeStack));
@@ -63,7 +63,7 @@ struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize){
         head = head->next;
     }
     if (answer == NULL) answer = head->node;
-    printf("%d %d %d", answer->val, answer->left->val, answer->left->left->val);
+    // printf("%d %d %d", answer->val, answer->left->val, answer->left->left->val);
     return answer;
 
 }
